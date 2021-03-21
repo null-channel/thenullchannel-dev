@@ -1,0 +1,56 @@
+body{
+    background-color:#d7e4e2;
+    margin:0;
+    padding:0;
+}
+
+
+.app .lead-text{
+    color:#8898a4;
+    font-size:5rem;
+    margin-top:7rem;
+    text-align:center;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+.app .idea{
+    margin: 0 auto;
+    background-color:#35556be7;
+    width:46rem;
+    height:16rem;
+    border-radius:1.5rem;
+    box-shadow: 10px 5px 5px #35556b;
+    transition: all .5s ease-in-out;
+
+}
+
+/* .app .idea:hover{
+    transform: scale(1.2);
+} */
+
+.app .idea p{
+    font-size:2.5rem;
+    font-family: 'Source Sans Pro', sans-serif;
+    color:#d7e4e2;
+    text-align: center;
+}
+
+.fa-angle-up{
+    font-size:3rem;
+    color: #d7e4e2;
+    float:right;
+    margin-right:4rem;
+}
+
+.fa-angle-down{
+    font-size:3rem;
+    color: #d7e4e2;
+    float:right;
+    margin-top:3.6rem;
+    margin-left:35rem;
+  
+ 
+
+}
+
+
