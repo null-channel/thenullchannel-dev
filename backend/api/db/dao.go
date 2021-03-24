@@ -34,7 +34,7 @@ func UpdateIdea(idea *models.Idea, dbcon *gorm.DB) {
 		Description: idea.Description,
 		Votes:       idea.Votes,
 	}
-	updaterr := dbcon.First(idea.ID).Save(updatedidea).Error
+	updaterr := dbcon.First(&models.Idea{}, "id = ?", idea.ID).Save(updatedidea).Error
 	if updaterr != nil {
 		logrus.Fatalf("unable to upate video idea, reason %s", updaterr.Error())
 	}
@@ -46,4 +46,13 @@ func IncVote(idea *models.Idea, dbcon *gorm.DB) {
 	if incerr != nil {
 		logrus.Fatal("could not increment vote. Reason %s", incerr.Error())
 	}
+}
+
+func GetIdeas(dbcon *gorm.DB) []models.Idea {
+	var ideas []models.Idea
+	searcherr := dbcon.Find(&ideas).Error
+	if searcherr != nil {
+		logrus.Fatalf("could not retrieve ideas. Reason %s", searcherr.Error())
+	}
+	return ideas
 }
