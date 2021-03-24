@@ -8,5 +8,5 @@ type Idea struct {
 }
 
 type Vote struct {
-	Count int64
+	Count int `gorm:"default:18"`
 }
