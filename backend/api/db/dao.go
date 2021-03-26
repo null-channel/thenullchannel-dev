@@ -8,7 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
-// Connect established a databsase connection and performs migrations
+// Connect establishes a databsase connection and performs migrations
 func Connect() *gorm.DB {
 	// use postgres for prod
 	db, err := gorm.Open(sqlite.Open("api.db"), &gorm.Config{})
@@ -16,7 +16,6 @@ func Connect() *gorm.DB {
 		logrus.Panicf("failed to connect to db. Reason : %s", err.Error())
 	}
 	db.AutoMigrate(&models.Idea{})
-	db.AutoMigrate(&models.Vote{})
 	return db
 }
 
@@ -28,7 +27,7 @@ func Insert(idea models.Idea, dbcon *gorm.DB) {
 	}
 }
 
-func UpdateIdea(idea *models.Idea, dbcon *gorm.DB) {
+func UpdateIdea(idea *models.Idea, dbcon *gorm.DB) error {
 	updatedidea := models.Idea{
 		ID:          idea.ID,
 		Description: idea.Description,
@@ -37,15 +36,26 @@ func UpdateIdea(idea *models.Idea, dbcon *gorm.DB) {
 	updaterr := dbcon.First(&models.Idea{}, "id = ?", idea.ID).Save(updatedidea).Error
 	if updaterr != nil {
 		logrus.Fatalf("unable to upate video idea, reason %s", updaterr.Error())
+		return updaterr
 	}
+	return nil
 }
 
-func IncVote(idea *models.Idea, dbcon *gorm.DB) {
-	idea.Votes.Count += 1
-	incerr := dbcon.First(idea).Save(&idea).Error
-	if incerr != nil {
-		logrus.Fatal("could not increment vote. Reason %s", incerr.Error())
+func IncVote(ideaID uint, dbcon *gorm.DB) error {
+	idea := &models.Idea{}
+	searcherr := dbcon.First(&idea, ideaID).Error
+	if searcherr != nil {
+		if searcherr == gorm.ErrRecordNotFound {
+			return searcherr
+		}
+		logrus.Fatal("could not retrive record. Reason %s", searcherr.Error())
 	}
+	idea.Votes += 1
+	updaterr := dbcon.Save(&idea).Error
+	if updaterr != nil {
+		logrus.Fatal("could not incement vote count reason %s", updaterr.Error())
+	}
+	return nil
 }
 
 func GetIdeas(dbcon *gorm.DB) []models.Idea {
