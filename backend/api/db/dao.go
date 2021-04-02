@@ -2,16 +2,18 @@ package db
 
 import (
 	"api/models"
+	"os"
 
 	"github.com/sirupsen/logrus"
-	"gorm.io/driver/sqlite"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 // Connect establishes a databsase connection and performs migrations
 func Connect() *gorm.DB {
 	// use postgres for prod
-	db, err := gorm.Open(sqlite.Open("api.db"), &gorm.Config{})
+	dsn := os.Getenv("DB_URI")
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		logrus.Panicf("failed to connect to db. Reason : %s", err.Error())
 	}
