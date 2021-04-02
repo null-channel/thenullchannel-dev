@@ -27,8 +27,7 @@
       <p class="lead-text">What would you like to see next ?</p> 
       <div v-for="idea in ideas" class="idea">
 	<p>{{ idea.description }}</p>
-        <i class="fas fa-angle-up"></i>
-        <i class="fas fa-angle-down"></i>
+        <input type="button" value="vote" class="vote-btn">
       </div>
     </div>
     <script src="./app.js"></script>
