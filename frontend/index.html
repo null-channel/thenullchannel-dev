@@ -10,6 +10,7 @@
       type="image/x-icon"
     />
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="style.css" />
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
@@ -24,8 +25,8 @@
   <body>
     <div id="app" class="app">
       <p class="lead-text">What would you like to see next ?</p> 
-      <div class="idea">
-        <p>Running wordpress on GKE</p>
+      <div v-for="idea in ideas" class="idea">
+	<p>{{ idea.description }}</p>
         <i class="fas fa-angle-up"></i>
         <i class="fas fa-angle-down"></i>
       </div>
