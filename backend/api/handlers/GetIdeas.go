@@ -16,6 +16,7 @@ func GetIdeas(resp http.ResponseWriter, req *http.Request) {
 		logrus.Panicf("unable to marshal json , reason %s ", err.Error())
 	}
 	resp.Header().Set("Content-Type", "application/json")
+	resp.Header().Set("Access-Control-Allow-Origin", "*")
 	resp.Write(jsonresp)
 
 }
