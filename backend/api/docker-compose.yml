@@ -1,34 +1,44 @@
-version: '3.1'
-
+version: "3.9"
 services:
-    postgres:
-      image: postgres:9.6.17-alpine
-      restart: always
-      environment:
-        POSTGRES_PASSWORD: pgadmin999
-        POSTGRES_USER: root
-        POSTGRES_DB: ideas
-      volumes:
-        - ./postgres-data:/var/lib/postgresql/data
-      ports:
-        - "5432:5432"
-    api:
-      build: .
-      container_name: api
-      restart: always
-      environment:
-        DB_URL: "host=postgres user=root password=pgadmin999 dbname=ideas port=5432 sslmode=disable"
-      ports:
-        - "8080:8080"
-    pgweb:
-    container_name: pgweb
+  caddy:
+    image: caddy:2.4.0-beta.2-alpine
     restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      SITE_ADDRESS: localhost:3000
+    volumes:
+      - ./../../frontend/Caddyfile:/etc/caddy/Caddyfile
+      - ./../../frontend/:/srv
+  api:
+    build: .
+    container_name: ideas_api 
+    ports:
+      - "8080:8080"
+    restart: always
+    env_file:
+      - ./.env
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:alpine
+    restart: always
+    ports:
+      - "5432"
+    environment:
+      POSTGRES_PASSWORD: pgadmin962
+      POSTGRES_USER: postgres
+      POSTGRES_DB: ideas
+  pgweb:
+    container_name: pgweb
     image: sosedoff/pgweb
     ports:
       - "8081:8081"
     links:
       - postgres:postgres
     environment:
-      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/postgres?sslmode=disable
+      - DATABASE_URL=postgres://postgres:pgadmin962@postgres:5432/postgres?sslmode=disable
     depends_on:
       - postgres
+
+
