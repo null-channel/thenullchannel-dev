@@ -16,8 +16,8 @@ FROM alpine
 
 RUN apk add --no-cache ca-certificates
 
-COPY --from=builder /app/blink /blink 
+COPY --from=builder /app/api /api
 
 EXPOSE 8080 
 
-ENTRYPOINT ["/app/api"]
+ENTRYPOINT ["/api"]
