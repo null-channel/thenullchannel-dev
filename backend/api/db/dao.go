@@ -17,6 +17,7 @@ func Connect() *gorm.DB {
 	if err != nil {
 		logrus.Panicf("failed to connect to db. Reason : %s", err.Error())
 	}
+	logrus.Warn("SUCESSFULLY CONNECTED TO DB")
 	db.AutoMigrate(&models.Idea{})
 	return db
 }
