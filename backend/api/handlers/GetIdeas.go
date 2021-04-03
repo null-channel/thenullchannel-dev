@@ -17,6 +17,9 @@ func GetIdeas(resp http.ResponseWriter, req *http.Request) {
 	}
 	resp.Header().Set("Content-Type", "application/json")
 	resp.Header().Set("Access-Control-Allow-Origin", "*")
+	if req.Method == http.MethodOptions {
+		return
+	}
 	resp.Write(jsonresp)
 
 }
