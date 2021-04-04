@@ -14,10 +14,12 @@ var app = new Vue({
 methods: {
   vote(){
     axios.post(endpoint+"/vote",{
-      id: this.idea.id,
-      description: this.idea.description,
-      votes: this.idea.votes
+      id: this.ideas.id,
+      description: this.ideas.description,
+      votes: this.ideas.votes
     })
+    .then(response => (console.log(response.data)))
+    .catch((err) => console.log(err));	
   }
 }
 });
