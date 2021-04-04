@@ -28,9 +28,9 @@ curl -u admin_user:admin_pass -X POST -H "Content-Type: application/json" \
 Response 
 ``` json 
 {
-    id: 1,
-    description: "Using traefik as an ingress controller",
-    votes: 0
+    "id": 1,
+    "description": "Using traefik as an ingress controller",
+    "votes": 0
 }
 ```
 
@@ -52,11 +52,12 @@ Resopnse
 
 ``` json 
 {
-    id: 1,
-    description: "Using traefik as an ingress controller",
-    votes: 1
+    "id": 1,
+    "description": "Using traefik as an ingress controller",
+    "votes": 1
 }
 ```
+
 
 ### Deleting Ideas
 
