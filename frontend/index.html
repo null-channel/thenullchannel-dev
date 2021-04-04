@@ -21,13 +21,14 @@
     <script src="https://unpkg.com/scrollreveal"></script>
 
     <title>Null Channel Votes</title>
-  </head>
+  </head>           
   <body>
     <div id="app" class="app">
       <p class="lead-text">What would you like to see next ?</p> 
       <div v-for="idea in ideas" class="idea">
-	<p>{{ idea.description }}</p>
-        <input type="button" value="vote" class="vote-btn">
+	  <p class="description">{{ idea.description }}</p>
+    <p class="votes"> {{ idea.votes }} </p>
+        <input type="button" value="vote"v-on:click="vote" class="vote-btn">
       </div>
     </div>
     <script src="./app.js"></script>
