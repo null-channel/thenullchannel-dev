@@ -23,11 +23,13 @@ func Connect() *gorm.DB {
 }
 
 // Insert creates a new video idea
-func Insert(idea models.Idea, dbcon *gorm.DB) {
+func Insert(idea models.Idea, dbcon *gorm.DB) (models.Idea, error) {
 	inserterr := dbcon.Create(&idea).Error
 	if inserterr != nil {
 		logrus.Fatalf("failed to insert %v to database. Reason %s", idea, inserterr.Error())
+		return models.Idea{}, inserterr
 	}
+	return idea, nil
 }
 
 func UpdateIdea(idea *models.Idea, dbcon *gorm.DB) error {
@@ -68,4 +70,12 @@ func GetIdeas(dbcon *gorm.DB) []models.Idea {
 		logrus.Fatalf("could not retrieve ideas. Reason %s", searcherr.Error())
 	}
 	return ideas
+}
+
+func DeleteIdea(dbcon *gorm.DB, idea models.Idea) error {
+	err := dbcon.Delete(&idea).Error
+	if err != nil {
+		return err
+	}
+	return nil
 }
