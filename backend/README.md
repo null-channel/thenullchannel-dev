@@ -35,7 +35,7 @@ Response
 ```
 
 
-### Voting for and idea
+### Voting for an idea
 
 ``` bash 
 curl -X POST -d '{id: 1,description: "Using traefik as an ingress controller",votes: 0}' localhost:8080/vote | jq 
