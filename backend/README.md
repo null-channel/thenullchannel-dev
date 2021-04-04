@@ -63,7 +63,7 @@ Response
 
 ``` shell
 curl -u admin_user:admin_pass -X DELETE -H "Content-Type: application/json" \
-    -d '{"Description":"Using traefik as an ingress controller"}' \
+    -d '{"id":1,"Description":"Using traefik as an ingress controller","votes: 1"}' \
     localhost:8080/ideas 
 ```
 Response 
