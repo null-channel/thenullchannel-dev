@@ -20,6 +20,7 @@ func main() {
 	r := mux.NewRouter()
 	r.Use(requel.LogReq)
 	r.HandleFunc("/ideas", handlers.GetIdeas).Methods(http.MethodGet, http.MethodOptions)
+	r.HandleFunc("/ideas", middleware.BasicAuth(handlers.DeleteIdea, admin_user, admin_pass, "")).Methods(http.MethodDelete)
 	r.HandleFunc("/vote", handlers.IncrementVote).Methods("POST")
 	r.HandleFunc("/create", middleware.BasicAuth(handlers.InsertIdea, admin_user, admin_pass, "")).Methods("POST")
 	logrus.Info("server started on 8080")
