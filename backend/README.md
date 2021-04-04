@@ -48,7 +48,7 @@ Verify vote
 
 ` curl localhost:8080/ideas | jq `
 
-Resopnse
+Response
 
 ``` json 
 {
