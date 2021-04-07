@@ -1,24 +1,44 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-      <p class="lead-text">What would you like to see next ?</p>
-    <Ideas/>
+     <p class="lead-text">What would you like to see next ?</p> 
+    <Ideas :ideas="ideas" />
   </div>
 </template>
 
 <script>
-import Idea from './components/Idea.vue'
+import Ideas from "./components/Ideas";
+import axios from "axios";
+require("dotenv").config();
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-   Idea
-  }
-}
-</script>
+    Ideas,
+  },
+  data() {
+    return {
+      ideas: [],
+    };
+  },
+  methods: {
+    getideas() {
+      var data 
+      axios
+        .get(process.env.VUE_APP_API_URL + "/ideas", { crossDomain: true })
+        .then((response) => (data = response.json))
+        .catch((err) => console.log(err));
+        return data
+    },
+  },
+  created() {
+    this.ideas = this.getideas();
+  },
+};
+</script> 
 
 <style>
 #app .lead-text{
+ 
     color:#8898a4;
     font-size:5rem;
     margin-top:7rem;
