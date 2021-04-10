@@ -44,7 +44,7 @@ Response
 
 HTTP 200 Ok.
 
-Verify vote 
+Verify your vote 
 
 ` curl localhost:8080/ideas | jq `
 
