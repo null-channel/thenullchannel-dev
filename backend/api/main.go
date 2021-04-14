@@ -8,6 +8,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
+
 	"github.com/s1ntaxe770r/requel"
 	"github.com/sirupsen/logrus"
 )
@@ -27,4 +28,5 @@ func main() {
 	logrus.Info("server started on 8080")
 	handler := cors.Default().Handler(r)
 	logrus.Fatal(http.ListenAndServe(":8080", handler))
+
 }

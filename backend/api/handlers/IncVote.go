@@ -22,5 +22,6 @@ func IncrementVote(resp http.ResponseWriter, req *http.Request) {
 	if req.Method == http.MethodOptions {
 		return
 	}
+
 	resp.WriteHeader(http.StatusOK)
 }

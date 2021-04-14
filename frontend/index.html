@@ -10,7 +10,9 @@
       type="image/x-icon"
     />
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
     <link rel="stylesheet" href="style.css" />
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
@@ -21,6 +23,7 @@
     <script src="https://unpkg.com/scrollreveal"></script>
 
     <title>Null Channel Votes</title>
+
   </head>           
   <body>
     <div id="app" class="app">
@@ -29,6 +32,7 @@
 	  <p class="description">{{ idea.description }}</p>
     <p class="votes"> {{ idea.votes }} </p>
         <input type="button" value="vote"v-on:click="vote" class="vote-btn">
+
       </div>
     </div>
     <script src="./app.js"></script>

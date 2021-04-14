@@ -2,6 +2,7 @@ package db
 
 import (
 	"api/models"
+
 	"os"
 
 	"github.com/sirupsen/logrus"
@@ -12,17 +13,20 @@ import (
 // Connect establishes a databsase connection and performs migrations
 func Connect() *gorm.DB {
 	// use postgres for prod
+
 	dsn := os.Getenv("DB_URI")
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		logrus.Panicf("failed to connect to db. Reason : %s", err.Error())
 	}
 	logrus.Warn("SUCESSFULLY CONNECTED TO DB")
+
 	db.AutoMigrate(&models.Idea{})
 	return db
 }
 
 // Insert creates a new video idea
+
 func Insert(idea models.Idea, dbcon *gorm.DB) (models.Idea, error) {
 	inserterr := dbcon.Create(&idea).Error
 	if inserterr != nil {
@@ -30,6 +34,7 @@ func Insert(idea models.Idea, dbcon *gorm.DB) (models.Idea, error) {
 		return models.Idea{}, inserterr
 	}
 	return idea, nil
+
 }
 
 func UpdateIdea(idea *models.Idea, dbcon *gorm.DB) error {
