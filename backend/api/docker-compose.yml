@@ -1,0 +1,46 @@
+version: "3.9"
+services:
+  nginx:
+    image: nginx:stable-alpine
+    restart: always
+    ports:
+      - "3000:80"
+    environment:
+      NGINX_HOST: localhost
+      NGINX_PORT: 80
+    volumes:
+      - ./../../frontend/nginx.conf:/etc/nginx/conf.d/default.conf 
+      - ./../../frontend/:/usr/share/nginx/nullchannel
+    
+  api:
+    build: .
+    container_name: ideas_api 
+    ports:
+      - "8080:8080"
+    restart: always
+    env_file:
+      - ./.env
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:alpine
+    restart: always
+    ports:
+      - "5432"
+    environment:
+      POSTGRES_PASSWORD: pgadmin962
+      POSTGRES_USER: postgres
+      POSTGRES_DB: ideas
+  pgweb:
+    container_name: pgweb
+    image: sosedoff/pgweb
+    ports:
+      - "8081:8081"
+    links:
+      - postgres:postgres
+    environment:
+      - DATABASE_URL=postgres://postgres:pgadmin962@postgres:5432/postgres?sslmode=disable
+    depends_on:
+      - postgres
+
+

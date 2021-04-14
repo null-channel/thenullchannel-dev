@@ -3,28 +3,38 @@ package db
 import (
 	"api/models"
 
+	"os"
+
 	"github.com/sirupsen/logrus"
-	"gorm.io/driver/sqlite"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 // Connect establishes a databsase connection and performs migrations
 func Connect() *gorm.DB {
 	// use postgres for prod
-	db, err := gorm.Open(sqlite.Open("api.db"), &gorm.Config{})
+
+	dsn := os.Getenv("DB_URI")
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		logrus.Panicf("failed to connect to db. Reason : %s", err.Error())
 	}
+	logrus.Warn("SUCESSFULLY CONNECTED TO DB")
+
 	db.AutoMigrate(&models.Idea{})
 	return db
 }
 
 // Insert creates a new video idea
-func Insert(idea models.Idea, dbcon *gorm.DB) {
+
+func Insert(idea models.Idea, dbcon *gorm.DB) (models.Idea, error) {
 	inserterr := dbcon.Create(&idea).Error
 	if inserterr != nil {
 		logrus.Fatalf("failed to insert %v to database. Reason %s", idea, inserterr.Error())
+		return models.Idea{}, inserterr
 	}
+	return idea, nil
+
 }
 
 func UpdateIdea(idea *models.Idea, dbcon *gorm.DB) error {
@@ -65,4 +75,12 @@ func GetIdeas(dbcon *gorm.DB) []models.Idea {
 		logrus.Fatalf("could not retrieve ideas. Reason %s", searcherr.Error())
 	}
 	return ideas
+}
+
+func DeleteIdea(dbcon *gorm.DB, idea models.Idea) error {
+	err := dbcon.Delete(&idea).Error
+	if err != nil {
+		return err
+	}
+	return nil
 }

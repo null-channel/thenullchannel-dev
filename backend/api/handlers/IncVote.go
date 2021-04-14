@@ -16,6 +16,12 @@ func IncrementVote(resp http.ResponseWriter, req *http.Request) {
 		http.Error(resp, "could not increase vote with id", 500)
 		return
 	}
+	resp.Header().Set("Access-Control-Allow-Origin", "*")
 	resp.Header().Set("Content-Type", "application/json")
+
+	if req.Method == http.MethodOptions {
+		return
+	}
+
 	resp.WriteHeader(http.StatusOK)
 }
