@@ -1,10 +1,9 @@
 <template>
-  <div class="idea">
-    <div :key="idea.id" v-for="idea in ideas">
-      <p class="decription">{{ idea.description }}</p>
-      <input type="hidden" name="id" id="id" :ideaid="idea.id" />
-      <p class="votes">{{ votes }}</p>
-      <input type="submit" v-on:click="Vote()" class="vote" value="vote" />
+  <div>
+    <div :key="idea.id" v-for="idea in ideas" class="idea">
+      <p class="description">{{ idea.description }}</p>
+      <p class="votes">{{ idea.votes }}</p>
+      <input type="submit" v-on:click="Vote(idea.id)" class="vote-btn" value="vote" />
     </div>
   </div>
 </template>
@@ -15,17 +14,24 @@ import axios from "axios";
 
 export default {
   name: "Ideas",
-  props: {
-    ideas: [],
+  data() {
+    return {
+      ideas: [],
+    };
+  },
+  mounted() {
+    fetch(process.env.VUE_APP_API_URL + "/ideas")
+      .then((response) => response.json())
+      .then((data) => this.ideas = data)
+      .catch((err) => console.log(err.message));
   },
   methods: {
-    Votes() {
-      const url = process.env.VUE_APP_API_URL + "/vote";
+    Vote(id) {
       axios
-        .post(url, {
-          id: this.idea.id,
-          description: this.idea.description,
-          votes: this.idea.votes,
+        .post(process.env.VUE_APP_API_URL + "/vote", {
+          id: id,
+          description:null,
+          votes:null,
         })
         .then(
           (response) => {
@@ -54,13 +60,20 @@ export default {
 }
 .idea .description {
   margin-top: 30px;
-  font-size: 90px;
+  font-size: 2.5rem;
   font-family: "Source Sans Pro", sans-serif;
   color: #d7e4e2;
   text-align: center;
 }
 
-vote {
+.idea .votes {
+  font-size: 2rem;
+  margin-top: 4rem;
+  margin-left: 22rem;
+  color: #d7e4e2;
+  font-family: "Source Sans Pro", sans-serif;
+}
+.idea .vote-btn {
   font-size: 1.3rem;
   color: #d7e4e2;
   margin-left: 16rem;
