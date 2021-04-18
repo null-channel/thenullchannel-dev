@@ -3,7 +3,7 @@
     <div :key="idea.id" v-for="idea in ideas" class="idea">
       <p class="description">{{ idea.description }}</p>
       <p class="votes">{{ idea.votes }}</p>
-      <input type="submit" v-on:click="Vote(idea.id)" class="vote-btn" value="vote" />
+      <input type="submit" v-on:click="Vote(idea.id,idea)" class="vote-btn" value="vote" />
     </div>
   </div>
 </template>
@@ -26,7 +26,7 @@ export default {
       .catch((err) => console.log(err.message));
   },
   methods: {
-    Vote(id) {
+    Vote(id,idea) {
       axios
         .post(process.env.VUE_APP_API_URL + "/vote", {
           id: id,
@@ -35,7 +35,8 @@ export default {
         })
         .then(
           (response) => {
-            console.log(response);
+           console.log(response.status)
+           idea.votes +=1
           },
           (error) => {
             console.log(error);
