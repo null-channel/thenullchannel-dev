@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: null-frontend
+  labels:
+    app: null-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: null-frontend
+  template:
+    metadata:
+      labels:
+        app: null-frontend
+    spec:
+      containers:
+      - name: null-frontend
+        image: nullchannel/null-web-frontend:latest:v0.1
+        ports:
+        - containerPort: 8001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: null-frontend-service
+spec:
+  selector:
+    app: null-frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8001
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: null-backend
+  labels:
+    app: null-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: null-backend
+  template:
+    metadata:
+      labels:
+        app: null-backend
+    spec:
+      containers:
+      - name: null-backend
+        image: nullchannel/null-web-backend:latest:v0.1
+        ports:
+        - containerPort: 8002
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: null-backend-service
+spec:
+  selector:
+    app: null-backend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8002
