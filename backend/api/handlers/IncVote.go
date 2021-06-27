@@ -10,8 +10,7 @@ import (
 func IncrementVote(resp http.ResponseWriter, req *http.Request) {
 	idea := models.Idea{}
 	json.NewDecoder(req.Body).Decode(&idea)
-	dbcon := db.Connect()
-	queryerr := db.IncVote(idea.ID, dbcon)
+	queryerr := db.IncVote(idea.ID)
 	if queryerr != nil {
 		http.Error(resp, "could not increase vote with id", 500)
 		return

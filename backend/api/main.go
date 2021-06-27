@@ -1,6 +1,7 @@
 package main
 
 import (
+	"api/db"
 	"api/handlers"
 	"api/middleware"
 	"net/http"
@@ -18,9 +19,11 @@ var (
 	admin_pass = os.Getenv("ADMIN_PASS")
 )
 
+
 func main() {
 	r := mux.NewRouter()
 	r.Use(requel.LogReq)
+	db.Connect()
 	r.HandleFunc("/ideas", handlers.GetIdeas).Methods(http.MethodGet, http.MethodOptions)
 	r.HandleFunc("/ideas", middleware.BasicAuth(handlers.DeleteIdea, admin_user, admin_pass, "")).Methods(http.MethodDelete)
 	r.HandleFunc("/vote", handlers.IncrementVote).Methods("POST", "OPTIONS")
