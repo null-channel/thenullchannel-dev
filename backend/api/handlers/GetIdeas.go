@@ -9,8 +9,7 @@ import (
 )
 
 func GetIdeas(resp http.ResponseWriter, req *http.Request) {
-	dbcon := db.Connect()
-	ideas := db.GetIdeas(dbcon)
+	ideas := db.GetIdeas()
 	jsonresp, err := json.Marshal(ideas)
 	if err != nil {
 		logrus.Panicf("unable to marshal json , reason %s ", err.Error())

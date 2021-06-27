@@ -10,10 +10,12 @@ import (
 func InsertIdea(resp http.ResponseWriter, req *http.Request) {
 	idea := models.Idea{}
 	// Todo: Data validation
-	json.NewDecoder(req.Body).Decode(&idea)
-	dbcon := db.Connect()
-
-	result, err := db.Insert(idea, dbcon)
+	err := json.NewDecoder(req.Body).Decode(&idea)
+	if err != nil {
+		http.Error(resp,"could not parse request body:"+err.Error(),http.StatusBadRequest)
+		return
+	}
+	result, err := db.Insert(idea)
 	if err != nil {
 		http.Error(resp, "could not add idea to the database. "+err.Error(), http.StatusBadRequest)
 	}
