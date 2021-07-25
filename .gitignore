@@ -16,3 +16,4 @@
 frontend/node_modules
 backend/api/.env
 backend/api/*.db
+secrets.yml
