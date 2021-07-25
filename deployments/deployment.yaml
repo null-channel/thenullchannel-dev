@@ -17,6 +17,9 @@ spec:
       containers:
       - name: null-frontend
         image: nullchannel/null-web-frontend:latest:v0.1
+        envFrom:
+        - secretRef:
+            name: apicreds
         ports:
         - containerPort: 8001
 ---
